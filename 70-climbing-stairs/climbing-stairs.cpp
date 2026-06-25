@@ -1,10 +1,11 @@
+vector<int> dp(46,-1);
 class Solution {
 public:
     int climbStairs(int n) {
-        double sqrt5 = sqrt(5);
-        double phi = (1 + sqrt5) / 2.0;
-        double psi = (1 - sqrt5) / 2.0;
-        
-        return round((pow(phi, n + 1) - pow(psi, n + 1)) / sqrt5);
+        if(dp[n]!=-1) return dp[n];
+        if(n<=2) return dp[n]=n;
+        return dp[n]=climbStairs(n-1)+climbStairs(n-2);
     }
+
+
 };
