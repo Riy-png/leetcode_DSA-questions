@@ -1,32 +1,32 @@
 class Solution {
 public:
-    void findCombination(int ind, int target, vector<int>& candidates,
-                         vector<vector<int>>& ans, vector<int>& ds) {
-        
-        if (ind == candidates.size()) {
-            if (target == 0) {
-                ans.push_back(ds);
-            }
-            return;
+     vector<vector<int>> solve(int target, vector<int>& candidates,int idx) {
+           if (target == 0)
+            return {{}} ;
+
+        if (idx == candidates.size() || target < 0)
+            return {} ;
+
+        vector<vector<int>> ans;
+
+        // Pick current element
+       auto take= solve(target - candidates[idx],candidates, idx );
+        for (auto &v : take) {
+            v.push_back(candidates[idx]);
+            ans.push_back(v);
         }
 
-        // Pick the current element
-        if (candidates[ind] <= target) {
-            ds.push_back(candidates[ind]);
-            findCombination(ind, target - candidates[ind], candidates, ans, ds);
-            ds.pop_back();
-        }
+        // Skip all duplicates while not picking
+        int next = idx + 1;
 
-        // Do not pick the current element
-        findCombination(ind + 1, target, candidates, ans, ds);
+        auto notTake=solve(target,candidates, next);
+        ans.insert(ans.end(), notTake.begin(), notTake.end());
+
+        return ans;   
     }
 
     vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
-        vector<vector<int>> ans;
-        vector<int> ds;
-
-        findCombination(0, target, candidates, ans, ds);
-
-        return ans;
+         sort(candidates.begin(), candidates.end());
+        return solve(target,candidates,0);
     }
 };
