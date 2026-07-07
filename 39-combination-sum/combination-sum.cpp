@@ -1,14 +1,14 @@
 class Solution {
 public:
      void solve(int target, vector<int>& candidates,int ind ,vector<int>& ds,vector<vector<int>> &ans ) {
-        if(ind== candidates.size()){
+        if(ind== candidates.size()){ // base condition
             if(target==0){ 
               return ans.push_back(ds);
             } 
            return ;
         }      
 
-        if(candidates[ind]<=target){
+        if(candidates[ind]<=target){ // pick up the element
         ds.push_back(candidates[ind]);
         solve(target-candidates[ind],candidates,ind,ds,ans);
         ds.pop_back();  
