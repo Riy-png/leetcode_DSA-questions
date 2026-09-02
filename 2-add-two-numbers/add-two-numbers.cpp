@@ -10,29 +10,31 @@
  */
 class Solution {
 public:
-      ListNode* solve(ListNode* l1, ListNode* l2, int carry) {
-        if (l1 == NULL && l2 == NULL && carry == 0)
-            return NULL;
-
-        int sum = carry;
-
-        if (l1 != NULL) sum += l1->val;
-        if (l2 != NULL) sum += l2->val;
-
-        ListNode* node = new ListNode(sum % 10);
-
-        
-        node->next = solve(
-            (l1 ? l1->next : NULL),
-            (l2 ? l2->next : NULL),
-            sum / 10
-        );
-
-        return node;
-    }
-
     ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
-        return solve(l1, l2, 0);
+        ListNode* dummyNode = new ListNode(-1);
+        ListNode* curr = dummyNode;
+        ListNode* temp1 = l1;
+        ListNode* temp2 =l2;
+        int carry=0;
+        while(temp1!=nullptr || temp2!=nullptr ){
+            int sum=carry;
+            if(temp1) sum+=temp1->val;
+            if(temp2) sum+=temp2->val;
+            ListNode* newNode = new ListNode (sum%10);
+            carry=sum/10;
+
+            curr->next = newNode;
+            curr = curr->next;
+
+            if(temp1) temp1 = temp1->next;
+            if(temp2) temp2 = temp2->next;
+        }
+        if(carry){
+            ListNode* newNode = new ListNode(carry);
+            curr->next = newNode;
+        }
+        ListNode* result = dummyNode->next;
+        delete(dummyNode);
+        return result;  // T.C O(MAX(N1,N2)) USED FOR STORING RESULT NOT TO OPTIMISED CODE
     }
 };
-   
