@@ -3,7 +3,6 @@ public:
     vector<int> sortEvenOdd(vector<int>& nums) {
         vector<int> odd;
         vector<int> even;
-        vector<int> ans;
         for(int i=0;i<nums.size();i++){
             if(i%2==0){
                 even.push_back(nums[i]);
@@ -17,17 +16,12 @@ public:
         int oddIdx=0;
         for(int i=0;i<nums.size();i++){
             if(i%2==0){
-                ans.push_back(even[evenIdx++]);
+                nums[i]= even[evenIdx++];
             }else{
-                ans.push_back(odd[oddIdx++]);
+                nums[i]= odd[oddIdx++];
             }
         }
-        return ans;
-
-
-
-
-
+        return nums; // without extra memory space 
 
     }
 };
