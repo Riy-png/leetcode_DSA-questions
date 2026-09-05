@@ -1,47 +1,32 @@
 class Solution {
 public:
-    ListNode* deleteHead(ListNode* head) {
-        if(head == nullptr) return head;
+    ListNode* removeNthFromEnd(ListNode* head, int n) {
+        int count = 0;
         ListNode* temp = head;
-        head = head->next;
-        delete temp;
-        return head;
-    }
-
-    ListNode* deleteTail(ListNode* head) {
-        if(head == nullptr || head->next == nullptr) return nullptr;
-        ListNode* temp = head;
-        while(temp->next->next != nullptr){
+        
+        while (temp != NULL) {
+            count++;
             temp = temp->next;
         }
-        delete temp->next;
-        temp->next = nullptr;
-        return head;
-    }
-
-    ListNode* removeNthFromEnd(ListNode* head, int n) {
-        ListNode* dummy = new ListNode(0);
-        dummy->next = head;
         
-        ListNode* fast = dummy;
-        ListNode* slow = dummy;
-
-        for (int i = 0; i < n; ++i) {
-            fast = fast->next;
+        if (count == n) {
+            ListNode* newHead = head->next;
+            delete head;
+            return newHead;
         }
-
-        while (fast->next != nullptr) {
-            fast = fast->next;
-            slow = slow->next;
-        }
-
-        ListNode* nodeToDelete = slow->next;
-        slow->next = slow->next->next; 
-        delete nodeToDelete;          
-
-        ListNode* newHead = dummy->next;
-        delete dummy;
         
-        return newHead;
+        temp = head;
+        for (int i = 1; i < count - n; i++) {
+            temp = temp->next;
+        }
+        
+        ListNode* deleteNode = temp->next;
+        
+        if (deleteNode != NULL) { 
+            temp->next = deleteNode->next;
+            delete deleteNode;
+        }
+        
+        return head; //O(len(N))
     }
 };
